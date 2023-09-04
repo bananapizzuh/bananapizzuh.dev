@@ -1,0 +1,66 @@
+---
+title: "How chatgpt helped me create paklib"
+publishDate: "4 Sept 2023"
+description: "Chatgpt is suprisingly good at reverse engineering (kinda)"
+tags: ["chatgpt", "python"]
+---
+
+## What is paklib?
+Paklib is a tool to extract/compile the pak file format used in the MX vs ATX Unleased and Disney Pixar Cars video games made by Rainbow Studios. I made the tool because an already existing tool called [Rainbow-Studios-PAK-Tool](https://github.com/The-Meth0d/Rainbow-Studios-PAK-Tool) didn't properly compile directories into pak files.
+
+## How chatgpt helped
+This project was the first time I ever dove into the world of reverse engineering, and the first time I opened a hex editor. That is why chatgpt helped with this project tremendously. The archive file's structure looked something like this:
+```
+// ARCHIVE HEADER
+  4 - Number Of Files
+
+// DIRECTORY
+  // for each file
+    100 - Filename (null terminated, filled with byte 204)
+    4 - File Offset (relative to the start of the file data)
+    4 - File Length
+
+// FILE DATA
+  // for each file
+    X - File Data
+```
+After an issue where chatgpt thought a file was a folder, the code *almost* worked first try.
+The only issue was that the file sorting was odd, to say the least.
+Everytime I progressed in the sorting function, some other issue would come up.
+So eventually I decided to write the sorting function myself, after chatgpt couldn't understand the sorting part.
+```py
+def custom_key(path):
+        priority_chars = [
+            ".",
+            "0",
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "\\",
+            "-",
+            "_",
+        ]
+        default_priority = 1000
+
+        def get_priority(char):
+            if char in priority_chars:
+                return priority_chars.index(char)
+            return default_priority + ord(char)
+
+        return [get_priority(char) for char in path[0].lower()]
+
+sorted_file_list = sorted(file_list, key=custom_key)
+```
+Although, I still find it impressive that chatgpt could understand these parameters and create the "compiler" second try.
+
+## Whats next for paklib?
+The library/tool isn't very complete or fast, so I was thinking of rewriting paklib in rust, nim, or go for a large speedup.
+I was also thinking of forking The_Meth0ds tool and adding the compile functionality to it.
+I am thoroughly impressed with the performance of chatgpt and understanding the project.
+Check it out here: https://github.com/bananapizzuh/paklib
