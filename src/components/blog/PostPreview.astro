@@ -12,9 +12,15 @@ const { post, as: Tag = "div", withDesc = false } = Astro.props;
 const postDate = post.data.updatedDate ?? post.data.publishDate;
 ---
 
-<FormattedDate date={postDate} class="min-w-[120px] text-gray-500" />
+<FormattedDate date={postDate} class="min-w-[120px] text-gray-500" transition:animate transition:name="date"/>
 <Tag>
-	<a href={`/posts/${post.slug}/`} class="cactus-link" rel="prefetch">
+	<a
+		href={`/posts/${post.slug}/`}
+		class="cactus-link"
+		rel="prefetch"
+		transition:animate
+		transition:name="title"
+	>
 		{post.data.title}
 	</a>
 </Tag>
