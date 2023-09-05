@@ -6,7 +6,7 @@ export const siteConfig: SiteConfig = {
 	// Meta property used to construct the meta title property, found in src/components/BaseHead.astro L:11
 	title: "bananapizzuh's blog",
 	// Meta property used as the default description meta property
-	description: "An opinionated starter theme for Astro",
+	description: "A blog made by bananapizzuh",
 	// HTML lang property, found in src/layouts/Base.astro L:18
 	lang: "en-US",
 	// Meta property, found in src/components/BaseHead.astro L:42
@@ -28,6 +28,7 @@ export const menuLinks: Array<{ title: string; path: string }> = [
 		title: "Home",
 		path: "/",
 	},
+
 	{
 		title: "Blog",
 		path: "/posts/",
